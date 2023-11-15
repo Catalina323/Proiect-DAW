@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-﻿namespace CollectiveKnowledgePlatform.Models
-{
-    public class Role
-    {
-=======
-﻿using System.ComponentModel.DataAnnotations;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace CollectiveKnowledgePlatform.Models
 {
@@ -18,6 +13,5 @@ namespace CollectiveKnowledgePlatform.Models
 
         public virtual ICollection<User> Users { get; set; }
 
->>>>>>> 384e93d5196630a580801c840971148713e54fd8
     }
 }
