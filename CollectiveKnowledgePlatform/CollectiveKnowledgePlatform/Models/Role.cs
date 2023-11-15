@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 using System.ComponentModel.DataAnnotations;
 
 namespace CollectiveKnowledgePlatform.Models
@@ -13,4 +14,21 @@ namespace CollectiveKnowledgePlatform.Models
         public virtual ICollection<User> Users { get; set; }
 
     }
+=======
+using System.ComponentModel.DataAnnotations;
+
+namespace CollectiveKnowledgePlatform.Models
+{
+    public class Role
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
+
+    }
+>>>>>>> Stashed changes
 }
