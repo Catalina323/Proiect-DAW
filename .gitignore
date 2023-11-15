@@ -3,7 +3,9 @@
 *.out
 *.o
 ############# MY STUFF ###########
-
+*.vsidx
+*.v2
+*.bin
 
 ###################
 # compiled source #
@@ -80,4 +82,3 @@ _[Ss]cripts
 *.nupkg
 *.ncrunchsolution
 *.dot[Cc]over
-.vsidx
