@@ -10,12 +10,10 @@ namespace CollectiveKnowledgePlatform.Models
         [Required(ErrorMessage = "Comentariul nu are continut")]
         public string Continut {  get; set; }
 
-        public int UserId { get; set; }
+        [Required]
+        public virtual String UserId { get; set; }
 
-        public virtual User User { get; set; }
-
-        public int TopicId {  get; set; }
+        public int TopicId { get; set; }
         public virtual Topic Topic { get; set; }
-
     }
 }

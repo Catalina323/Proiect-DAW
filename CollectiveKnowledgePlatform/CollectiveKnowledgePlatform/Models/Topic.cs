@@ -13,20 +13,15 @@ namespace CollectiveKnowledgePlatform.Models
         [Required(ErrorMessage = "Textul este obligatoriu")]
         public string Text { get; set; }
 
-        public int CategoryId {  get; set; }
-
-        public virtual Category Category { get; set; }
-
 
         [Required]
-        public int UserId {  get; set; }
+        public virtual String UserId { get; set; }
 
-        public virtual User User { get; set; }
+        public int CategoryId { get; set; }
+        public virtual Category Category { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
 
         public virtual ICollection<TopicLike> TopicLikes { get; set; }  
-        
-
     }
 }

@@ -6,14 +6,13 @@ namespace CollectiveKnowledgePlatform.Models
     {
         [Key]
         public int Id { get; set; }
+        public int Type { get; set; }
 
-        public int UserId { get; set; }
-        public virtual User User {  get; set; }
+        [Required]
+        public virtual String UserId { get; set; }
 
         public int TopicId { get; set; }
         public virtual Topic Topic { get; set; }
-
-        public int type { get; set; }
 
     }
 }

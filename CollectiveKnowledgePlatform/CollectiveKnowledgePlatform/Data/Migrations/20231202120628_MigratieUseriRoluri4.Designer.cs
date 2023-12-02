@@ -4,6 +4,7 @@ using CollectiveKnowledgePlatform.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollectiveKnowledgePlatform.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231202120628_MigratieUseriRoluri4")]
+    partial class MigratieUseriRoluri4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -159,7 +161,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -378,11 +380,11 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                         .WithMany("Topics")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("CollectiveKnowledgePlatform.Models.Category", "Category")
+                    b.HasOne("CollectiveKnowledgePlatform.Models.Category", null)
                         .WithMany("Topics")
-                        .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CollectiveKnowledgePlatform.Models.TopicLike", b =>

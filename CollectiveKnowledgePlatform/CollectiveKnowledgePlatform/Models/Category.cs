@@ -13,6 +13,9 @@ namespace CollectiveKnowledgePlatform.Models
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public virtual String UserId { get; set; }
+
         public virtual ICollection<Topic> Topics { get; set; }
     }
 }
