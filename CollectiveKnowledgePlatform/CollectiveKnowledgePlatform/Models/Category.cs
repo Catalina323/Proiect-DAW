@@ -4,6 +4,7 @@ namespace CollectiveKnowledgePlatform.Models
 {
     public class Category
     {
+        //atributele din tabel
         [Key]
         public int Id { get; set; }
 
@@ -13,9 +14,13 @@ namespace CollectiveKnowledgePlatform.Models
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        public virtual String UserId { get; set; }
+        //chestii pentru legatura dintre tabele
 
-        public virtual ICollection<Topic> Topics { get; set; }
+        [Required]
+        public string? UserId { get; set; }
+
+        public virtual ApplicationUser? User { get; set; }
+
+        public virtual ICollection<Topic>? Topics { get; set; }
     }
 }

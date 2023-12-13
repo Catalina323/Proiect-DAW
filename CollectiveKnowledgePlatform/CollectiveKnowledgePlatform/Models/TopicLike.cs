@@ -9,10 +9,12 @@ namespace CollectiveKnowledgePlatform.Models
         public int Type { get; set; }
 
         [Required]
-        public virtual String UserId { get; set; }
+        public string? UserId { get; set; }
 
-        public int TopicId { get; set; }
-        public virtual Topic Topic { get; set; }
+        public virtual ApplicationUser? User { get; set; }
+
+        public int? TopicId { get; set; }
+        public virtual Topic? Topic { get; set; }
 
     }
 }

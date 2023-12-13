@@ -10,5 +10,13 @@ namespace CollectiveKnowledgePlatform.Data
             : base(options)
         {
         }
+
+
+        public DbSet<Topic> Topics { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<TopicLike> TopicLikes { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
     }
 }

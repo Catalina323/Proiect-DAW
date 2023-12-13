@@ -4,6 +4,7 @@ namespace CollectiveKnowledgePlatform.Models
 {
     public class Topic
     {
+        //atribute tabel
         [Key]
         public int Id { get; set; }
 
@@ -13,15 +14,17 @@ namespace CollectiveKnowledgePlatform.Models
         [Required(ErrorMessage = "Textul este obligatoriu")]
         public string Text { get; set; }
 
+        //chestii pt legarea tabelelor
 
         [Required]
-        public virtual String UserId { get; set; }
+        public string? UserId { get; set; }
+        public virtual ApplicationUser? User { get; set; }
 
-        public int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        public int? CategoryId { get; set; }
+        public virtual Category? Category { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment>? Comments { get; set; }
 
-        public virtual ICollection<TopicLike> TopicLikes { get; set; }  
+        public virtual ICollection<TopicLike>? TopicLikes { get; set; }
     }
 }
