@@ -4,7 +4,7 @@
 
 namespace CollectiveKnowledgePlatform.Data.Migrations
 {
-    public partial class migratie1 : Migration
+    public partial class migratieTablee : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

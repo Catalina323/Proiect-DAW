@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollectiveKnowledgePlatform.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231216093659_migratie1")]
-    partial class migratie1
+    [Migration("20231216130719_migratieTablee")]
+    partial class migratieTablee
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

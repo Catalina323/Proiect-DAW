@@ -13,6 +13,16 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:ddd",
       "dynamicId": null
+    },
+    "mssql4": {
+      "type": "mssql",
+      "connectionId": "dada",
+      "dynamicId": null
+    },
+    "mssql5": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:Conexiune",
+      "dynamicId": null
     }
   }
 }
