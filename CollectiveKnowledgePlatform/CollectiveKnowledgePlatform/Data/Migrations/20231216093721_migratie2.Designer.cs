@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollectiveKnowledgePlatform.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231202115027_MigratieUseriRoluri")]
-    partial class MigratieUseriRoluri
+    [Migration("20231216093721_migratie2")]
+    partial class migratie2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,14 +106,13 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("CollectiveKnowledgePlatform.Models.Comment", b =>
@@ -128,7 +127,10 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TopicId")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("TopicId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -141,7 +143,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("CollectiveKnowledgePlatform.Models.Topic", b =>
@@ -152,7 +154,8 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -164,7 +167,6 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -173,7 +175,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("CollectiveKnowledgePlatform.Models.TopicLike", b =>
@@ -184,7 +186,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("TopicId")
+                    b.Property<int?>("TopicId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
@@ -200,7 +202,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TopicLike");
+                    b.ToTable("TopicLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -343,10 +345,8 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
             modelBuilder.Entity("CollectiveKnowledgePlatform.Models.Category", b =>
                 {
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Categories")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -355,9 +355,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                 {
                     b.HasOne("CollectiveKnowledgePlatform.Models.Topic", "Topic")
                         .WithMany("Comments")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TopicId");
 
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
                         .WithMany("Comments")
@@ -380,9 +378,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
 
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
                         .WithMany("Topics")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
@@ -393,9 +389,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                 {
                     b.HasOne("CollectiveKnowledgePlatform.Models.Topic", "Topic")
                         .WithMany("TopicLikes")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TopicId");
 
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
                         .WithMany("TopicLikes")
@@ -461,6 +455,8 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
 
             modelBuilder.Entity("CollectiveKnowledgePlatform.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Comments");
 
                     b.Navigation("TopicLikes");

@@ -104,7 +104,6 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -154,6 +153,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("CategoryId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -165,7 +165,6 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -345,9 +344,7 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                 {
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
                         .WithMany("Categories")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -373,13 +370,13 @@ namespace CollectiveKnowledgePlatform.Data.Migrations
                 {
                     b.HasOne("CollectiveKnowledgePlatform.Models.Category", "Category")
                         .WithMany("Topics")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
                         .WithMany("Topics")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 

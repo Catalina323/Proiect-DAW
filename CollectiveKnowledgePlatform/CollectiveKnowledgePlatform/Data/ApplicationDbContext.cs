@@ -1,6 +1,7 @@
 ﻿using CollectiveKnowledgePlatform.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CollectiveKnowledgePlatform.Data
 {
@@ -12,11 +13,12 @@ namespace CollectiveKnowledgePlatform.Data
         }
 
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<TopicLike> TopicLikes { get; set; }
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
     }
+
+
 }

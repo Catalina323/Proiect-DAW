@@ -15,8 +15,6 @@ namespace CollectiveKnowledgePlatform.Models
         public string Description { get; set; }
 
         //chestii pentru legatura dintre tabele
-
-        [Required]
         public string? UserId { get; set; }
 
         public virtual ApplicationUser? User { get; set; }

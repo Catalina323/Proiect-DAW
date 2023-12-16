@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CollectiveKnowledgePlatform.Models
 {
@@ -16,10 +17,10 @@ namespace CollectiveKnowledgePlatform.Models
 
         //chestii pt legarea tabelelor
 
-        [Required]
         public string? UserId { get; set; }
         public virtual ApplicationUser? User { get; set; }
 
+        [Required]
         public int? CategoryId { get; set; }
         public virtual Category? Category { get; set; }
 
