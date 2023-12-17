@@ -2,26 +2,7 @@
   "dependencies": {
     "mssql1": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:DefaultConnection"
-    },
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:Conexiunebaza",
-      "dynamicId": null
-    },
-    "mssql3": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:ddd",
-      "dynamicId": null
-    },
-    "mssql4": {
-      "type": "mssql",
-      "connectionId": "dada",
-      "dynamicId": null
-    },
-    "mssql5": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:Conexiune",
+      "connectionId": "ConnectionStrings:conexiune",
       "dynamicId": null
     }
   }

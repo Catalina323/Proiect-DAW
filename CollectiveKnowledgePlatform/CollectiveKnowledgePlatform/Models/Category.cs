@@ -8,10 +8,11 @@ namespace CollectiveKnowledgePlatform.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Numele categoriei este obligatoriu")]
+        [StringLength(30, ErrorMessage ="Numele categoriei este prea mare")]
+        [MinLength(2, ErrorMessage ="Numele categoriei este prea mic")]
         public string Name { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
         //chestii pentru legatura dintre tabele

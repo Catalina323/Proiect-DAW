@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CollectiveKnowledgePlatform.Data.Migrations
+namespace CollectiveKnowledgePlatform.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231216130719_migratieTablee")]
-    partial class migratieTablee
+    [Migration("20231217063715_migratie1")]
+    partial class migratie1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

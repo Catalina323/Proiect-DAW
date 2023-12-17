@@ -1,31 +1,9 @@
 {
   "dependencies": {
     "mssql1": {
-      "type": "mssql.local",
-      "connectionId": "ConnectionStrings:DefaultConnection"
-    },
-    "mssql2": {
       "secretStore": null,
       "type": "mssql.local",
-      "connectionId": "ConnectionStrings:Conexiunebaza",
-      "dynamicId": null
-    },
-    "mssql3": {
-      "secretStore": "LocalSecretsFile",
-      "type": "mssql.local",
-      "connectionId": "ConnectionStrings:ddd",
-      "dynamicId": null
-    },
-    "mssql4": {
-      "secretStore": "LocalSecretsFile",
-      "type": "mssql.local",
-      "connectionId": "dada",
-      "dynamicId": null
-    },
-    "mssql5": {
-      "secretStore": null,
-      "type": "mssql.local",
-      "connectionId": "ConnectionStrings:Conexiune",
+      "connectionId": "ConnectionStrings:conexiune",
       "dynamicId": null
     }
   }
