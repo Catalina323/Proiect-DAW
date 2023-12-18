@@ -22,8 +22,8 @@
                     new IdentityRole
                     {
                         Id = "c6139664-edd9-4856-a0ba-e8a73d388ba0",
-                        Name = "Admin",
-                        NormalizedName = "Admin".ToUpper()
+                        Name = "Administrator",
+                        NormalizedName = "Administrator".ToUpper()
                     },
 
 
@@ -51,44 +51,44 @@
                     new ApplicationUser
                     {
                         Id = "d6e23997-6f83-4f8c-ba9c-81f2189fe900",
-                        UserName = "admin",
+                        UserName = "admin@test.com",
                         EmailConfirmed = true,
                         NormalizedEmail = "ADMIN@TEST.COM",
                         Email = "admin@test.com",
-                        NormalizedUserName = "ADMIN",
+                        NormalizedUserName = "ADMIN@TEST.COM",
                         PasswordHash = hasher.HashPassword(null, "Admin1!")
                     },
 
                     new ApplicationUser
                     {
                         Id = "d6e23997-6f83-4f8c-ba9c-81f2189fe901",
-                        UserName = "moderator",
+                        UserName = "moderator@test.com",
                         EmailConfirmed = true,
                         NormalizedEmail = "MODERATOR@TEST.COM",
                         Email = "moderator@test.com",
-                        NormalizedUserName = "MODERATOR",
+                        NormalizedUserName = "MODERATOR@TEST.COM",
                         PasswordHash = hasher.HashPassword(null, "Moderator1!")
                     },
 
                     new ApplicationUser
                     {
                         Id = "d6e23997-6f83-4f8c-ba9c-81f2189fe902",
-                        UserName = "user",
+                        UserName = "user@test.com",
                         EmailConfirmed = true,
                         NormalizedEmail = "USER@TEST.COM",
                         Email = "user@test.com",
-                        NormalizedUserName = "USER",
+                        NormalizedUserName = "USER@TEST.COM",
                         PasswordHash = hasher.HashPassword(null, "User1!")
                     },
 
                     new ApplicationUser
                     {
                         Id = "d6e23997-6f83-4f8c-ba9c-81f2189fe903",
-                        UserName = "user_neconfirmat",
+                        UserName = "user_neconfirmat@test.com",
                         EmailConfirmed = false,
                         NormalizedEmail = "USER_NECONFIRMAT@TEST.COM",
                         Email = "user_neconfirmat@test.com",
-                        NormalizedUserName = "USER_NECONFIRMAT",
+                        NormalizedUserName = "USER_NECONFIRMAT@TEST.COM",
                         PasswordHash = hasher.HashPassword(null, "User2!")
                     }
 

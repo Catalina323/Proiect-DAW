@@ -1,5 +1,6 @@
 ﻿using CollectiveKnowledgePlatform.Data;
 using CollectiveKnowledgePlatform.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,8 @@ namespace CollectiveKnowledgePlatform.Controllers
             _roleManager = roleManager;
         }
 
+        [HttpGet]
+        [Authorize(Roles = "User,Moderator,Administrator")]
         public ActionResult Index()
         {
             if (TempData.ContainsKey("message"))
@@ -29,21 +32,25 @@ namespace CollectiveKnowledgePlatform.Controllers
                              orderby category.Name
                              select category;
             ViewBag.Categories = categories;
+            SetAccessRights();
             return View();
         }
 
+        [Authorize(Roles = "User,Moderator,Administrator")]
         public ActionResult Show(int id)
         {
             Category category = db.Categories.Find(id);
+            SetAccessRights();
             return View(category);
         }
 
         public ActionResult New()
-        { 
-            return View(); 
+        {
+            return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Moderator,Administrator")]
         public ActionResult New(Category category)
         {
             if (ModelState.IsValid)
@@ -61,6 +68,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             }
         }
 
+        [Authorize(Roles = "Moderator,Administrator")]
         public ActionResult Edit(int id)
         {
             Category category = db.Categories.Find(id);
@@ -68,6 +76,7 @@ namespace CollectiveKnowledgePlatform.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Moderator,Administrator")]
         public ActionResult Edit(int id, Category requestCategory) 
         {
             Category category = db.Categories.Find(id);
@@ -86,6 +95,7 @@ namespace CollectiveKnowledgePlatform.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Moderator,Administrator")]
         public ActionResult Delete(int id)
         {
             Category category = db.Categories.Find(id);
@@ -93,10 +103,21 @@ namespace CollectiveKnowledgePlatform.Controllers
             TempData["message"] = "Categoria a fost stearsa";
             db.SaveChanges();
             return RedirectToAction("Index");
-
         }
+        private void SetAccessRights()
+        {
+            ViewBag.AfisareButoane = false;
 
+            if (User.IsInRole("Moderator") || User.IsInRole("Administrator"))
+            {
+                ViewBag.AfisareButoane = true;
+            }
 
+            ViewBag.EsteAdmin = User.IsInRole("Administrator");
+            ViewBag.EsteModerator = User.IsInRole("Moderator");
+
+            ViewBag.UserCurent = _userManager.GetUserId(User);
+        }
 
     }
 }

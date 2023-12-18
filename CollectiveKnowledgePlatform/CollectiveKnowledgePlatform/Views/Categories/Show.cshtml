@@ -11,7 +11,10 @@
 
 <form method="post" action="/Categories/Delete/@Model.Id">
 
-    <button class="btn btn-danger" type="submit">Sterge categoria</button>
+    @if(ViewBag.AfisareButoane)
+    {
+        <button class="btn btn-danger" type="submit">Sterge categoria</button> 
+    }
 
 </form>
 <br />

@@ -25,7 +25,11 @@
     @Html.Label("Description", "Descriere categorie");
     <p>@category.Description</p>
     <a class="btn alert-success" href="/Categories/Show/@category.Id">Afisare categorie</a>
-    <a class="btn alert-success" href="/Categories/Edit/@category.Id">Editare categorie</a>
+
+    @if(ViewBag.AfisareButoane)
+    {
+        <a class="btn alert-success" href="/Categories/Edit/@category.Id">Editare categorie</a>
+    }
     <a class="btn alert-success" href="/Topics/Index/@category.Id">Topicuri categorie</a>
     <br />
     <hr />
