@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CollectiveKnowledgePlatform.Models
@@ -27,5 +28,15 @@ namespace CollectiveKnowledgePlatform.Models
         public virtual ICollection<Comment>? Comments { get; set; }
 
         public virtual ICollection<TopicLike>? TopicLikes { get; set; }
+
+        //folosim asta pt ca in TopicsController in New
+        //avem nevoie de o lista cu categoriile pt a adauga in nou topic
+        //gasesti codul decomentat daca am folosit asta in aplicatie
+        //daca il gasesti comentat lasa-l asa acolo (nu e folosit dar il sterg eu)
+        //pwp cata <3
+
+        //[NotMapped]
+        //public IEnumerable<SelectListItem>? Categ { get; set; }
+
     }
 }
