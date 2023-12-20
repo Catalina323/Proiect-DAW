@@ -1,5 +1,26 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model CollectiveKnowledgePlatform.Models.Topic
 @{
+    ViewBag.Title = "Afisare topic";
 }
+<h2>@ViewBag.Title</h2>
+
+<br />
+
+<p>@Model.Title</p>
+<p>@Model.Text</p>
+
+<form method="post" action="/Topics/Delete/@Model.Id">
+
+    @if (ViewBag.AfisareButoane)
+    {
+        <button class="btn btn-danger" type="submit">Sterge topic</button>
+    }
+
+</form>
+<br />
+<a class="btn alert-success" href="/Topics/Index/">Afisare lista topice</a>
+
+<br />
+<hr />
+<br />
+
