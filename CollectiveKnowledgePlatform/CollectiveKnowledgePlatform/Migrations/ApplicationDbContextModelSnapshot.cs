@@ -17,7 +17,7 @@ namespace CollectiveKnowledgePlatform.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.21")
+                .HasAnnotation("ProductVersion", "6.0.23")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -101,7 +101,8 @@ namespace CollectiveKnowledgePlatform.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -153,7 +154,6 @@ namespace CollectiveKnowledgePlatform.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int?>("CategoryId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -370,9 +370,7 @@ namespace CollectiveKnowledgePlatform.Migrations
                 {
                     b.HasOne("CollectiveKnowledgePlatform.Models.Category", "Category")
                         .WithMany("Topics")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
                         .WithMany("Topics")

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace CollectiveKnowledgePlatform.Controllers
 {
@@ -31,7 +32,7 @@ namespace CollectiveKnowledgePlatform.Controllers
         public IActionResult Index(int CatId)
         {
             //var topics = db.Topics.Include("Topics").Include("User");
-
+            
             var topics = from topic in db.Topics.Include("Category")
                                .Where(t => t.CategoryId == CatId) 
                             select topic;
@@ -44,6 +45,7 @@ namespace CollectiveKnowledgePlatform.Controllers
                 ViewBag.Alert = TempData["messageType"];
             }
 
+            ViewBag.CatId = CatId;
             return View();
         }
 
@@ -73,11 +75,13 @@ namespace CollectiveKnowledgePlatform.Controllers
         //********** METODE  NEW ***********
 
         [Authorize(Roles = "User, Moderator, Administrator")]
-        public IActionResult New()
+        public IActionResult New(int CategId)
         {
             //Topic topic = new Topic();
             // Se preia lista de categorii cu ajutorul metodei GetAllCategories()
-            //topic.Categ = GetAllCategories();
+            //topic.CategoryId = CategId;
+            
+            ViewBag.CatId = CategId;
             
             //pt CODUL COMENTAT MAI SUS idee preluata dar vreau sa modific
             //revin la ea daca nu merge cum vreau eu
@@ -93,6 +97,7 @@ namespace CollectiveKnowledgePlatform.Controllers
 
             // preluam id-ul utiliz care posteaza topicul
             topic.UserId = _userManager.GetUserId(User);
+            topic.CategoryId = ViewBag.CatId;
 
             if (ModelState.IsValid)
             {
