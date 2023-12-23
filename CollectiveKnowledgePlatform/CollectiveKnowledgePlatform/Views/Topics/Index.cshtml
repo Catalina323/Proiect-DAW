@@ -3,7 +3,7 @@
 }
 
 <br />
-<h2 class="text-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewBag.Title </h2>
 <br />
 
 @if (TempData.ContainsKey("message"))
@@ -27,10 +27,15 @@
     <p>@topic.Text</p>
     <a class="btn alert-success" href="/Topics/Show/@topic.Id">Afisare topic</a>
 
+    @*
     @if (ViewBag.AfisareButoane)
     {
         <a class="btn alert-success" href="/Topics/Edit/@topic.Id">Editare topic</a>
     }
+    *@
+
+    <a class="btn alert-success" href="/Topics/Edit/@topic.Id">Editare topic</a>
+
     <br />
     <hr />
     <br />

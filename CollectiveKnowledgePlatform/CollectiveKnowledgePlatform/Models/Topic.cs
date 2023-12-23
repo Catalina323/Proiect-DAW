@@ -35,8 +35,8 @@ namespace CollectiveKnowledgePlatform.Models
         //daca il gasesti comentat lasa-l asa acolo (nu e folosit dar il sterg eu)
         //pwp cata <3
 
-        //[NotMapped]
-        //public IEnumerable<SelectListItem>? Categ { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem>? Categ { get; set; }
 
     }
 }

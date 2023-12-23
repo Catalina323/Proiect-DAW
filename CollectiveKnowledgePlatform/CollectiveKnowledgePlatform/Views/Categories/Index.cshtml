@@ -22,15 +22,19 @@
 {
     @Html.Label("Name", "Denumire categorie")
     <p>@category.Name</p>
-    @Html.Label("Description", "Descriere categorie");
+    @Html.Label("Description", "Descriere categorie")
+    ;
     <p>@category.Description</p>
     <a class="btn alert-success" href="/Categories/Show/@category.Id">Afisare categorie</a>
 
-    @if(ViewBag.AfisareButoane)
+    @if (ViewBag.AfisareButoane)
     {
         <a class="btn alert-success" href="/Categories/Edit/@category.Id">Editare categorie</a>
     }
-    <a class="btn alert-success" href="/Topics/Index/@category.Id">Topicuri categorie</a>
+
+    int? cat = category.Id;
+
+    <a class="btn alert-success" href="/Topics/Index/@cat">Topicuri categorie</a>
     <br />
     <hr />
     <br />
