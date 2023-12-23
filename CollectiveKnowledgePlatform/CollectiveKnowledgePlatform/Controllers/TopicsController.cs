@@ -24,21 +24,23 @@ namespace CollectiveKnowledgePlatform.Controllers
             db = context;
             _userManager = userManager;
             _roleManager = roleManager;
-    
         }
 
-        //********** METODA  INDEX *********
-
+        //********** METODA  INDEX ********
+        
         [Authorize(Roles = "User,Moderator,Administrator")]
-        public IActionResult Index(int? cat)
+        public IActionResult Index(int? id)
         {
+
             //var topics = db.Topics.Include("Topics").Include("User");
 
             //int? cat = ViewBag.CatId;
             //Console.WriteLine(cat.ToString());
 
-            var topics = from topic in db.Topics//.Include("Category")
-                               .Where(t => t.CategoryId == cat)//CategoryId) 
+            Console.WriteLine("++++++++++++" + id);
+            
+            var topics = from topic in db.Topics.Include("Category")
+                               .Where(t => t.CategoryId == id)//CategoryId) 
                             select topic;
 
             ViewBag.Topics = topics;

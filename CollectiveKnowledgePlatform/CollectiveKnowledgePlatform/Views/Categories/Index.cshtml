@@ -32,9 +32,10 @@
         <a class="btn alert-success" href="/Categories/Edit/@category.Id">Editare categorie</a>
     }
 
-    int? cat = category.Id;
+    int? id = (int?)category.Id;
 
-    <a class="btn alert-success" href="/Topics/Index/@cat">Topicuri categorie</a>
+    <a class="btn alert-success" href="/Topics/Index/@id">Topicuri categorie</a>
+
     <br />
     <hr />
     <br />
