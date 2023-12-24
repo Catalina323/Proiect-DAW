@@ -32,12 +32,12 @@ namespace CollectiveKnowledgePlatform.Controllers
         public IActionResult Index(int? id)
         {
 
+            if(id == null)
+                return NotFound();
             //var topics = db.Topics.Include("Topics").Include("User");
 
             //int? cat = ViewBag.CatId;
             //Console.WriteLine(cat.ToString());
-
-            Console.WriteLine("++++++++++++" + id);
             
             var topics = from topic in db.Topics.Include("Category")
                                .Where(t => t.CategoryId == id)//CategoryId) 
@@ -112,7 +112,7 @@ namespace CollectiveKnowledgePlatform.Controllers
                 db.SaveChanges();
                 TempData["message"] = "Topicul a fost adaugat";
                 TempData["messageType"] = "alert-success";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = topic.CategoryId });
             }
             else
             {
@@ -140,7 +140,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             {
                 TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui topic care nu va apartine";
                 TempData["messageType"] = "alert-danger";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = topic.CategoryId });
             }
 
         }
@@ -163,13 +163,13 @@ namespace CollectiveKnowledgePlatform.Controllers
                     TempData["message"] = "Topicul a fost modificat";
                     TempData["messageType"] = "alert-success";
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new {id = topic.CategoryId});
                 }
                 else
                 {
                     TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui articol care nu va apartine";
                     TempData["messageType"] = "alert-danger";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new {id = topic.CategoryId});
                 }
             }
             else
@@ -198,14 +198,14 @@ namespace CollectiveKnowledgePlatform.Controllers
                 db.SaveChanges();
                 TempData["message"] = "Topicul a fost sters";
                 TempData["messageType"] = "alert-success";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = topic.CategoryId });
             }
 
             else
             {
                 TempData["message"] = "Nu aveti dreptul sa stergeti un topic care nu va apartine";
                 TempData["messageType"] = "alert-danger";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = topic.CategoryId });
             }
         }
 
