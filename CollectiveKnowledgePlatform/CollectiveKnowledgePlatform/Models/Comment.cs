@@ -13,10 +13,10 @@ namespace CollectiveKnowledgePlatform.Models
 
         public DateTime Date { get; set; }
 
-        [Required]
         public string? UserId { get; set; }
         public virtual ApplicationUser? User { get; set; }
 
+        [Required]
         public int? TopicId { get; set; }
         public virtual Topic? Topic { get; set; }
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -61,12 +62,12 @@ namespace CollectiveKnowledgePlatform.Controllers
         [Authorize(Roles = "User,Moderator,Administrator")]
         public IActionResult Show(int id)
         {
-            Topic topic = db.Topics//.Include("Category")
-                                     //    .Include("User")
-                                       //  .Include("Comment")
-                                         //.Include("Comment.User")
-                                         .Where(t => t.Id == id)
-                                         .First();
+            Topic topic = db.Topics
+                                   .Include("User")
+                                   .Include("Comments")
+                                   .Include("Comments.User")
+                                   .Where(t => t.Id == id)
+                                   .First();
 
             SetAccessRights();
 
@@ -208,6 +209,34 @@ namespace CollectiveKnowledgePlatform.Controllers
                 return RedirectToAction("Index", new { id = topic.CategoryId });
             }
         }
+
+        //ADAUGARE COMENTARII LA UN TOPIC
+        [HttpPost]
+        [Authorize(Roles = "User,Moderator,Administrator")]
+        public IActionResult Show([FromForm] Comment comment)
+        {
+
+            comment.Date = DateTime.Now;
+            comment.UserId = _userManager.GetUserId(User);
+
+            if (ModelState.IsValid)
+            {
+                db.Comments.Add(comment);
+                db.SaveChanges();
+                return Redirect("/Topics/Show/" + comment.TopicId);
+            }
+            else
+            {
+                Topic topic = db.Topics.Include("User")
+                                        .Include("Comments").Include("Comments.User")
+                                        .Where(t => t.Id == comment.TopicId).First();
+
+                SetAccessRights();
+                return View(topic);
+            }
+        }
+
+
 
 
         //**********************************************
