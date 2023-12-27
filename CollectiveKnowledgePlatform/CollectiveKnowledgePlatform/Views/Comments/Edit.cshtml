@@ -1,0 +1,27 @@
+﻿@model CollectiveKnowledgePlatform.Models.Comment
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editare comentariu</h2>
+<br />
+
+@using (Html.BeginForm(controllerName: "Comments", actionName: "Edit",
+      method: FormMethod.Post, routeValues: new { id = Model.Id }))
+
+    {
+    @Html.Label("Content", "Continut comentariu")
+
+    <br />
+
+    @Html.Editor("Continut", new { @class = "form-control" })//aici ar trebui schimbat sa apara doar daca esti admin
+    <br />
+
+    @Html.ValidationMessage("Continut", null, new { @class = "text-danger" })
+
+    <br />
+    <br />
+
+    <button class="btn  btn-primary" type="submit">Editeaza comentariul</button>
+}
