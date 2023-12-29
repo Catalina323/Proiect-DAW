@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace CollectiveKnowledgePlatform.Controllers
 {
@@ -37,25 +38,56 @@ namespace CollectiveKnowledgePlatform.Controllers
 
             if(id == null)
                 return NotFound();
-            //var topics = db.Topics.Include("Topics").Include("User");
-
-            //int? cat = ViewBag.CatId;
-            //Console.WriteLine(cat.ToString());
             
             var topics = from topic in db.Topics//.Include("Category")
-                               .Where(t => t.CategoryId == id)//CategoryId) 
+                               .Where(t => t.CategoryId == id)
+                               .OrderBy(t => t.Id)
                             select topic;
 
-            ViewBag.Topics = topics;
+            int _perPage = 3;
             ViewBag.CatId = id;
 
-            //Console.WriteLine(CategoryId.ToString());
+            //********* inceput afisare paginata ***********
 
             if (TempData.ContainsKey("message"))
             {
-                ViewBag.Message = TempData["message"];
+                ViewBag.message = TempData["message"].ToString();
                 ViewBag.Alert = TempData["messageType"];
             }
+
+            // Fiind un numar variabil de articole, verificam de
+            // fiecare data utilizand metoda Count()
+            int totalItems = topics.Count();
+
+            // Se preia pagina curenta din View-ul asociat
+            // Numarul paginii este valoarea parametrului page din ruta
+            // /Articles/Index?page=valoare
+            var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+
+           
+            // Pentru prima pagina offsetul o sa fie zero
+            // Pentru pagina 2 o sa fie 3
+            // Asadar offsetul este egal cu numarul de articole
+            //care au fost deja afisate pe paginile anterioare
+            var offset = 0;
+            // Se calculeaza offsetul in functie de numarul paginii la care suntem
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * _perPage;
+            }
+
+            // Se preiau articolele corespunzatoare pentru fiecare pagina
+            // la care ne aflam in functie de offset
+            var paginatedTopics = topics.Skip(offset).Take(_perPage);
+
+            // Preluam numarul ultimei pagini
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
+            // Trimitem articolele cu ajutorul unui ViewBag
+            //catre View-ul corespunzator
+            ViewBag.Topics = paginatedTopics;
+
+            //********* sf afisare paginata ********
+
 
             SetAccessRights();
             return View();
