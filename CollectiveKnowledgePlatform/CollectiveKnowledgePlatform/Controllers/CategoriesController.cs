@@ -22,6 +22,7 @@ namespace CollectiveKnowledgePlatform.Controllers
 
         [HttpGet]
         [Authorize(Roles = "User,Moderator,Administrator")]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             if (TempData.ContainsKey("message"))
@@ -37,6 +38,7 @@ namespace CollectiveKnowledgePlatform.Controllers
         }
 
         [Authorize(Roles = "User,Moderator,Administrator")]
+        [AllowAnonymous]
         public ActionResult Show(int id)
         {
             Category category = db.Categories.Find(id);

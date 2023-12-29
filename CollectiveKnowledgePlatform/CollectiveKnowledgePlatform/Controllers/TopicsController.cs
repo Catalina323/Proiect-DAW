@@ -1,5 +1,6 @@
 ﻿using CollectiveKnowledgePlatform.Data;
 using CollectiveKnowledgePlatform.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace CollectiveKnowledgePlatform.Controllers
         //********** METODA  INDEX ********
         
         [Authorize(Roles = "User,Moderator,Administrator")]
+        [AllowAnonymous]
         public IActionResult Index(int? id)
         {
 
@@ -54,12 +56,14 @@ namespace CollectiveKnowledgePlatform.Controllers
                 ViewBag.Alert = TempData["messageType"];
             }
 
+            SetAccessRights();
             return View();
         }
 
         //********* METODELE  SHOW **********
 
         [Authorize(Roles = "User,Moderator,Administrator")]
+        [AllowAnonymous]
         public IActionResult Show(int id)
         {
             Topic topic = db.Topics
@@ -77,6 +81,7 @@ namespace CollectiveKnowledgePlatform.Controllers
                 ViewBag.Alert = TempData["messageType"];
             }
 
+            SetAccessRights();
             return View(topic);
         }
 
@@ -87,13 +92,14 @@ namespace CollectiveKnowledgePlatform.Controllers
         {
             Topic topic = new Topic();
             // Se preia lista de categorii cu ajutorul metodei GetAllCategories()
-            topic.Categ = GetCategory(CategId);
-            
+            topic.Categ = GetCategory();
+
             //ViewBag.CatId = CategId;
-            
+
             //pt CODUL COMENTAT MAI SUS idee preluata dar vreau sa modific
             //revin la ea daca nu merge cum vreau eu
 
+            SetAccessRights();
             return View(topic);
         }
 
@@ -118,6 +124,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             else
             {
                 //topic.Categ = GetAllCategories();
+                SetAccessRights();
                 return View(topic);
             }
         }
@@ -131,9 +138,19 @@ namespace CollectiveKnowledgePlatform.Controllers
             Topic topic = db.Topics//.Include("Category")
                                         .Where(t => t.Id == id)
                                         .First();
+            
 
             if (topic.UserId == _userManager.GetUserId(User) || User.IsInRole("Administrator"))
             {
+                if(User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+                {
+                    //daca e admin/moderator mai pun si o lista de categorii din care poate schimba adminul
+                    var categorii = GetCategory();
+                    ViewBag.Categories = categorii;
+                    ViewBag.CurrentCategory = topic.Category;
+                }
+
+                SetAccessRights();
                 return View(topic);
             }
 
@@ -141,6 +158,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             {
                 TempData["message"] = "Nu aveti dreptul sa faceti modificari asupra unui topic care nu va apartine";
                 TempData["messageType"] = "alert-danger";
+                SetAccessRights();
                 return RedirectToAction("Index", new { id = topic.CategoryId });
             }
 
@@ -153,13 +171,16 @@ namespace CollectiveKnowledgePlatform.Controllers
         {
             Topic topic = db.Topics.Find(id);
 
-
             if (ModelState.IsValid)
             {
-                if (topic.UserId == _userManager.GetUserId(User) || User.IsInRole("Admin"))
+                if (topic.UserId == _userManager.GetUserId(User) || User.IsInRole("Administrator") || User.IsInRole("Moderator"))
                 {
                     topic.Title = requestTopic.Title;
                     topic.Text = requestTopic.Text;
+                    if(User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+                    {
+                        topic.CategoryId = requestTopic.CategoryId;
+                    }
                     //topic.CategoryId = requestTopic.CategoryId;
                     TempData["message"] = "Topicul a fost modificat";
                     TempData["messageType"] = "alert-success";
@@ -175,6 +196,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             }
             else
             {
+                SetAccessRights();
                 return View(requestTopic);
             }
         }
@@ -187,11 +209,11 @@ namespace CollectiveKnowledgePlatform.Controllers
         public ActionResult Delete(int id)
         {
             //ASTA POATE PENTRU CAND O SA AVEM COMENTARII
-            //Topic topic = db.Topics.Include("Comments")
-            //                             .Where(art => art.Id == id)
-            //                             .First();
+            Topic topic = db.Topics.Include("Comments")
+                                         .Where(art => art.Id == id)
+                                        .First();
 
-            Topic topic = db.Topics.Find(id);
+            //Topic topic = db.Topics.Find(id);
 
             if (topic.UserId == _userManager.GetUserId(User) || User.IsInRole("Administrator"))
             {
@@ -256,14 +278,13 @@ namespace CollectiveKnowledgePlatform.Controllers
         }
 
         [NonAction]
-        public IEnumerable<SelectListItem> GetCategory(int CatId)
+        public IEnumerable<SelectListItem> GetCategory()
         {
             // generam o lista de tipul SelectListItem fara elemente
             var selectList = new List<SelectListItem>();
 
             // extragem toate categoriile din baza de date
             var categories = from cat in db.Categories
-                             where cat.Id == CatId
                              select cat;
 
             // iteram prin categorii

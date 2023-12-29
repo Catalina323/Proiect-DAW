@@ -21,6 +21,11 @@
     @Html.Editor("Text")
     @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
     <br />
+    @if (ViewBag.AfisareButoane)
+    {
+        //@Html.DropDownList("newCategory", new SelectList(ViewBag.Categories, "Value", "Text", ViewBag.CurrentCategory), null, new{@class = "form-control"})
+        @Html.DropDownListFor(m => m.CategoryId, new SelectList(ViewBag.Categories, "Value", "Text"), "Selectati categoria", new {@class = "form-control"})
+    }
 
     <br />
 
