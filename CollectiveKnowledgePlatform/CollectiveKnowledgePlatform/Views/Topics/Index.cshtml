@@ -12,6 +12,19 @@
 }
 <br />
 
+@*MOTOR DE CAUTARE*@
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search topics or keywords" 
+                name="search" value="@ViewBag.SearchString">
+        <button class="btn btn-outline-success" type="submit">
+            Search
+        </button>
+    </div>
+</form>
+
+
+
 <div class="align-items-center justify-content-center d-flex">
     <a class="btn btn-success" href="/Topics/New/@ViewBag.CatId">Adauga un nou topic @ViewBag.CatId</a>
 </div>
@@ -46,18 +59,20 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" href="/Topics/Index/@ViewBag.CatId?page=1" aria-label="Previous">
+                <a class="page-link"
+                   href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             @for (int i = 1; i <= ViewBag.lastPage; i++)
             {
                 <li class="page-item">
-                    <a class="page-link" href="/Topics/Index/@ViewBag.CatId?page=@i">@(i)</a>
+                    <a class="page-link" href="@ViewBag.PaginationBaseUrl=@i">@(i)</a>
                 </li>
             }
             <li class="page-item">
-                <a class="page-link" href="/topics/Index/@ViewBag.CatId?page=@(ViewBag.lastPage)" aria-label="Next">
+                <a class="page-link"
+                   href="@ViewBag.PaginationBaseUrl=@(ViewBag.lastPage)" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

@@ -44,10 +44,49 @@ namespace CollectiveKnowledgePlatform.Controllers
                                .OrderBy(t => t.Id)
                             select topic;
 
-            int _perPage = 3;
             ViewBag.CatId = id;
 
-            //********* inceput afisare paginata ***********
+            //******* inceput MOTOR DE CAUTARE ***********
+            var search = "";
+            
+            if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+            {
+
+                // eliminam spatiile libere
+                search = Convert.ToString(HttpContext.Request.Query["search"]).Trim();
+
+                // Cautare in articol (Title si Content)
+                List<int> topicIds = db.Topics.Where
+                (t => t.Title.Contains(search) || t.Text.Contains(search))
+                .Select(a => a.Id).ToList();
+
+                // Cautare in comentarii (Content)
+
+                List<int> topicIdsOfCommentsWithSearchString =
+                db.Comments.Where(c => c.Continut.Contains(search))
+                .Select(c => (int)c.TopicId).ToList();
+
+                // Se formeaza o singura lista formata din toate id-urile
+                //selectate anterior
+                List<int> mergedIds =
+                topicIds.Union(topicIdsOfCommentsWithSearchString).ToList();
+                // Lista articolelor care contin cuvantul cautat
+                // fie in articol -> Title si Content
+                // fie in comentarii -> Content
+                topics = db.Topics.Where(topic =>
+                mergedIds.Contains(topic.Id) && topic.CategoryId == id)
+                .Include("Category")
+                .Include("User")
+                .OrderBy(a => a.Id);
+            }
+            ViewBag.SearchString = search;
+            // AFISARE PAGINATA
+            //{ ... implementarea se afla in sectiunea anterioara }
+
+
+            //********* inceput AFISARE PAGINATA ***********
+
+            int _perPage = 3;
 
             if (TempData.ContainsKey("message"))
             {
@@ -55,39 +94,38 @@ namespace CollectiveKnowledgePlatform.Controllers
                 ViewBag.Alert = TempData["messageType"];
             }
 
-            // Fiind un numar variabil de articole, verificam de
-            // fiecare data utilizand metoda Count()
             int totalItems = topics.Count();
-
-            // Se preia pagina curenta din View-ul asociat
-            // Numarul paginii este valoarea parametrului page din ruta
-            // /Articles/Index?page=valoare
             var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
-
-           
-            // Pentru prima pagina offsetul o sa fie zero
-            // Pentru pagina 2 o sa fie 3
-            // Asadar offsetul este egal cu numarul de articole
-            //care au fost deja afisate pe paginile anterioare
             var offset = 0;
-            // Se calculeaza offsetul in functie de numarul paginii la care suntem
+
             if (!currentPage.Equals(0))
             {
                 offset = (currentPage - 1) * _perPage;
             }
 
-            // Se preiau articolele corespunzatoare pentru fiecare pagina
-            // la care ne aflam in functie de offset
             var paginatedTopics = topics.Skip(offset).Take(_perPage);
 
-            // Preluam numarul ultimei pagini
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
-            // Trimitem articolele cu ajutorul unui ViewBag
-            //catre View-ul corespunzator
             ViewBag.Topics = paginatedTopics;
 
-            //********* sf afisare paginata ********
+            //********* sfarsit AFISARE PAGINATA ********
 
+
+
+            if (search != "")
+            {
+                ViewBag.PaginationBaseUrl = "/Topics/Index/" + id + "?search="
+                + search + "&page";
+            }
+            else
+            {
+                ViewBag.PaginationBaseUrl = "/Topics/Index/" + id + "?page";
+            }
+
+
+            //********** sfarsit MOTOR DE CAUTARE ***********
+
+            
 
             SetAccessRights();
             return View();
@@ -317,18 +355,13 @@ namespace CollectiveKnowledgePlatform.Controllers
         [NonAction]
         public IEnumerable<SelectListItem> GetCategory()
         {
-            // generam o lista de tipul SelectListItem fara elemente
             var selectList = new List<SelectListItem>();
 
-            // extragem toate categoriile din baza de date
             var categories = from cat in db.Categories
                              select cat;
 
-            // iteram prin categorii
             foreach (var category in categories)
             {
-                // adaugam in lista elementele necesare pentru dropdown
-                // id-ul categoriei si denumirea acesteia
                 selectList.Add(new SelectListItem
                 {
                     Value = category.Id.ToString(),
