@@ -89,30 +89,38 @@ namespace CollectiveKnowledgePlatform.Controllers
         //********** METODE  NEW ***********
 
         [Authorize(Roles = "User, Moderator, Administrator")]
-        public IActionResult New()
+        public IActionResult New(int? id)
         {
-            //ViewBag.CatId = cat;
-            //Topic topic = new Topic();
+            ViewBag.CatId = id;
+            Topic topic = new Topic();
 
-            //topic.CategoryId = cat;
+            topic.CategoryId = id;
 
-            return View();
+            return View(topic);
         }
 
      
-        [Authorize(Roles = "User, Moderator, Administrator")]
         [HttpPost]
-        public IActionResult New(Topic topic)
+        [Authorize(Roles = "User, Moderator, Administrator")]
+        public IActionResult New(int? CatId, Topic topic)
         {
 
             // preluam id-ul utiliz care posteaza topicul
             topic.UserId = _userManager.GetUserId(User);
             //topic.CategoryId = ViewBag.CatId;
             //Console.WriteLine("ajunge pe new cu post");
-            
+            topic.CategoryId = CatId;
+
+            Topic topic2 = new Topic();
+            topic2.UserId = topic.UserId;
+            topic2.Text = topic.Text;
+            topic2.CategoryId = topic.CategoryId;
+            topic2.Title = topic.Title;
+
             if (ModelState.IsValid)
             {
-                db.Topics.Add(topic);
+
+                db.Topics.Add(topic2);
                 db.SaveChanges();
                 TempData["message"] = "Topicul a fost adaugat";
                 TempData["messageType"] = "alert-success";
