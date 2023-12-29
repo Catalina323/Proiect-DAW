@@ -133,7 +133,6 @@ namespace CollectiveKnowledgePlatform.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -357,9 +356,7 @@ namespace CollectiveKnowledgePlatform.Migrations
 
                     b.HasOne("CollectiveKnowledgePlatform.Models.ApplicationUser", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Topic");
 

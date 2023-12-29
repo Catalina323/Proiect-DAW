@@ -12,6 +12,13 @@
       "type": "mssql.local",
       "connectionId": "ConnectionStrings:CollectiveKnowledge",
       "dynamicId": null
+    },
+    "mssql3": {
+      "serviceConnectorResourceId": "",
+      "secretStore": "LocalSecretsFile",
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:baza-date",
+      "dynamicId": null
     }
   }
 }

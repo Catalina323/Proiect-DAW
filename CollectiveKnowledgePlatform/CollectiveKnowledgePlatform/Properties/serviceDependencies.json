@@ -9,6 +9,11 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:CollectiveKnowledge",
       "dynamicId": null
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:baza-date",
+      "dynamicId": null
     }
   }
 }

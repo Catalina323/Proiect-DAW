@@ -1,52 +1,34 @@
 ﻿@model CollectiveKnowledgePlatform.Models.Topic
 
 
-<h2 class="text-center mt-5">Adaugare topic @Model.CategoryId</h2>
+<h2 class="text-center mt-5">Adaugare topic @ViewBag.CatId</h2>
 <br />
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-6 offset-3">
 
-            @using (Html.BeginForm(actionName: "New", controllerName: "Topics",
-            method: FormMethod.Post))
+            @using (Html.BeginForm(actionName: "New", controllerName: "Topics", method: FormMethod.Post))
             {
 
-                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
-                @Html.Label("Title", "Titlu Topic")
+                @Html.Label("Title", "Titlu topic")
                 <br />
                 @Html.TextBox("Title", null, new { @class = "form-control" })
-
-                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
-                <br />
+                @Html.ValidationMessageFor(m => m.Title, null, new { @class = "text-danger" })
 
                 <br />
-
+                <br />
                 @Html.Label("Text", "Continut topic")
                 <br />
-                @Html.TextArea("Text", null, new { @class = "form-control" })
-
-                @Html.ValidationMessage("Text", null, new { @class = "text-danger" })
-                <br />
+                @Html.TextBox("Text", null, new { @class = "form-control" })
 
                 <br />
-
-                @*
-                <label>Selectati categoria</label>
-                @Html.DropDownListFor(m => m.CategoryId, new SelectList(Model.Categ, "Value", "Text"),
-                "Selectati categoria", new { @class = "form-control" })
-                
-
-                @Html.ValidationMessageFor(m => m.CategoryId, null, new { @class = "text-danger" })
-                *@
-
-                <br />
-
                 <br />
 
                 <button class="btn btn-success" type="submit">Adauga topic</button>
-
             }
+
+
 
         </div>
     </div>

@@ -42,11 +42,12 @@ namespace CollectiveKnowledgePlatform.Controllers
             //int? cat = ViewBag.CatId;
             //Console.WriteLine(cat.ToString());
             
-            var topics = from topic in db.Topics.Include("Category")
+            var topics = from topic in db.Topics//.Include("Category")
                                .Where(t => t.CategoryId == id)//CategoryId) 
                             select topic;
 
             ViewBag.Topics = topics;
+            ViewBag.CatId = id;
 
             //Console.WriteLine(CategoryId.ToString());
 
@@ -88,19 +89,14 @@ namespace CollectiveKnowledgePlatform.Controllers
         //********** METODE  NEW ***********
 
         [Authorize(Roles = "User, Moderator, Administrator")]
-        public IActionResult New(int CategId)
+        public IActionResult New()
         {
-            Topic topic = new Topic();
-            // Se preia lista de categorii cu ajutorul metodei GetAllCategories()
-            topic.Categ = GetCategory();
+            //ViewBag.CatId = cat;
+            //Topic topic = new Topic();
 
-            //ViewBag.CatId = CategId;
+            //topic.CategoryId = cat;
 
-            //pt CODUL COMENTAT MAI SUS idee preluata dar vreau sa modific
-            //revin la ea daca nu merge cum vreau eu
-
-            SetAccessRights();
-            return View(topic);
+            return View();
         }
 
      
@@ -111,8 +107,9 @@ namespace CollectiveKnowledgePlatform.Controllers
 
             // preluam id-ul utiliz care posteaza topicul
             topic.UserId = _userManager.GetUserId(User);
-            topic.CategoryId = ViewBag.CatId;
-
+            //topic.CategoryId = ViewBag.CatId;
+            //Console.WriteLine("ajunge pe new cu post");
+            
             if (ModelState.IsValid)
             {
                 db.Topics.Add(topic);

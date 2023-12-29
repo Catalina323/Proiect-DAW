@@ -46,6 +46,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             return View(category);
         }
 
+        [Authorize(Roles = "Moderator,Administrator")]
         public ActionResult New()
         {
             return View();
