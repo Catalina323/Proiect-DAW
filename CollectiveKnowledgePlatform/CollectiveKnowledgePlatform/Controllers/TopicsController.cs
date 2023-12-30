@@ -125,8 +125,8 @@ namespace CollectiveKnowledgePlatform.Controllers
 
             //********** sfarsit MOTOR DE CAUTARE ***********
 
-            
 
+            ViewBag.CurrentUser = _userManager.GetUserId(User);
             SetAccessRights();
             return View();
         }
@@ -252,7 +252,7 @@ namespace CollectiveKnowledgePlatform.Controllers
                 {
                     topic.Title = requestTopic.Title;
                     topic.Text = requestTopic.Text;
-                    if(User.IsInRole("Administrator") || User.IsInRole("Moderator"))
+                    if((User.IsInRole("Administrator") || User.IsInRole("Moderator") && requestTopic.CategoryId != null))
                     {
                         topic.CategoryId = requestTopic.CategoryId;
                     }

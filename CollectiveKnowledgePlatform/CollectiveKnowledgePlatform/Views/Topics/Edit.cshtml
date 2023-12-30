@@ -1,10 +1,10 @@
 ﻿@model CollectiveKnowledgePlatform.Models.Topic
 
 @{
-    ViewBag.Title = "Editare topic";
+    ViewBag.Title = Model.Title;
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>Editare Topic</h2>
 
 
 @using (Html.BeginForm(controllerName: "Topics", actionName: "Edit", method: FormMethod.Post,

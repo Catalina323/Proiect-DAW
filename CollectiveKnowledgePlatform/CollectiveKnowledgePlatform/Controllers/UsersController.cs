@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace CollectiveKnowledgePlatform.Controllers
 {
@@ -109,7 +110,40 @@ namespace CollectiveKnowledgePlatform.Controllers
         ///***********************DELETE*********************\\\
         ///LA DELETE ESTE MAI GREU, TREBUIE STERS IN CASCADA TOT\\\
         ///***********************DELETE*********************\\\
+        ///
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Delete(string id)
+        {
+            var user = db.Users
+                        .Include("Topics")
+                        .Include("Comments")
+                        .Where(u => u.Id == id)
+                        .First();
 
 
+            if (user.Comments.Count > 0)
+            {
+                foreach (var comment in user.Comments)
+                {
+                    db.Comments.Remove(comment);
+                    Console.WriteLine(comment.Continut);
+                }
+            }
+
+            if (user.Topics.Count > 0)
+            {
+                foreach(var topic in user.Topics)
+                {
+                    db.Topics.Remove(topic);
+                    Console.WriteLine(topic.Title);
+                }
+            }
+
+
+            db.ApplicationUsers.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

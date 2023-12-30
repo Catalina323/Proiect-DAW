@@ -67,7 +67,8 @@ namespace CollectiveKnowledgePlatform.Controllers
                 if (ModelState.IsValid)
                 {
                     comm.Continut = requestComment.Continut;
-                    comm.Date = requestComment.Date;
+                    //comm.Date = requestComment.Date;
+                    comm.Date = DateTime.Now;
                     db.SaveChanges();
                     return Redirect("/Topics/Show/" + comm.TopicId);
                 }

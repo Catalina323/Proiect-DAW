@@ -28,25 +28,27 @@
                 </div>
                 <br>
 
-                @if (comm.UserId == ViewBag.UserCurent)
+                @if (comm.UserId == ViewBag.UserCurent || ViewBag.AfisareButoane)
                 {
 
                     <div class="d-flex">
 
+                        @if (comm.UserId == ViewBag.UserCurent)
+                        {
+                            <div>
+                                <a class="btn btn-outline-primary" href="/Comments/Edit/@comm.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
+                            </div>
+                        }
+
                         <div>
+                            @if ((comm.UserId == ViewBag.UserCurent) || ViewBag.AfisareButoane)
+                            {
+                                <form method="post" action="/Comments/Delete/@comm.Id">
 
-                            <a class="btn btn-outline-primary" href="/Comments/Edit/@comm.Id"><i class="bi bi-pencil-square"></i>Editeaza</a>
+                                    <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
 
-                        </div>
-
-                        <div>
-
-                            <form method="post" action="/Comments/Delete/@comm.Id">
-
-                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
-
-                            </form>
-
+                                </form>             
+                            }
                         </div>
 
                     </div>
