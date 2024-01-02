@@ -15,7 +15,7 @@
 @if (ViewBag.AfisareButoane)
 {
 <div class="align-items-center justify-content-center d-flex">
-    <a class="btn btn-success" href="/Categories/New">Adauga o noua categorie</a>
+    <a class="btn btn-primary" href="/Categories/New">Adauga o noua categorie</a>
 </div>
 }
 
@@ -23,23 +23,27 @@
 
 @foreach (var category in ViewBag.Categories)
 {
-    @Html.Label("Name", "Denumire categorie")
-    <p>@category.Name</p>
-    @Html.Label("Description", "Descriere categorie")
-    ;
-    <p>@category.Description</p>
-    <a class="btn alert-success" href="/Categories/Show/@category.Id">Afisare categorie</a>
+    <div class="div_categorie">
+    @*@Html.Label("Name", "Denumire categorie", new {@class = "den_categorie"})*@
+    <p class="den_categorie align-items-center justify-content-center d-flex">@category.Name</p>
+    @*@Html.Label("Description", "Scurta descriere");*@
+    <p class="p_categorie">Scurta descriere: @category.Description</p>
+
+    <div class="btn-group butoane_categorii align-items-center justify-conent-center d-flex">
+    <a class="btn btn-secondary" href="/Categories/Show/@category.Id">Afisare categorie</a>
 
     @if (ViewBag.AfisareButoane)
     {
-        <a class="btn alert-success" href="/Categories/Edit/@category.Id">Editare categorie</a>
+        <a class="btn btn-secondary" href="/Categories/Edit/@category.Id">Editare categorie</a>
     }
 
 
-    <a class="btn alert-success" href="/Topics/Index/@category.Id">Topicuri categorie</a>
+    <a class="btn btn-secondary" href="/Topics/Index/@category.Id">Topicuri categorie</a>
 
     <br />
     <hr />
     <br />
+    </div>
+    </div>
 }
 <br />

@@ -16,3 +16,35 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.den_categorie{
+    padding:10px;
+    font-size:3vh;
+}
+
+.butoane_categorii{
+    margin:auto;
+    width:50%;  
+    padding-bottom:1vh;
+    border-bottom: 1px solid grey;
+}
+
+.p_categorie{
+    margin:auto;
+    width:50%; 
+    padding-bottom:1vh;
+
+}
+
+.div_categorie{
+    margin-left:0.5vw;
+    margin-bottom:1vh;
+    padding-bottom:0.4vh;
+}
+
+.show_numeCategorie{
+    font-size:4vh;
+}
+.show_descriereCategorie{
+    font-size:3vh;
+}
