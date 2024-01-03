@@ -48,3 +48,10 @@ body {
 .show_descriereCategorie{
     font-size:3vh;
 }
+
+.show_topic_text{
+    font-size:2vh;
+    padding-bottom: 2vh;
+    margin-bottom: 10vh;
+    border-bottom: 0.16rem solid green;
+}

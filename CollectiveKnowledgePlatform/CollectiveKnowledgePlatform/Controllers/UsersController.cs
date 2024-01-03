@@ -107,10 +107,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             return View(user);
         }
 
-        ///***********************DELETE*********************\\\
-        ///LA DELETE ESTE MAI GREU, TREBUIE STERS IN CASCADA TOT\\\
-        ///***********************DELETE*********************\\\
-        ///
+        //LA DELETE TREBUIE STERS IN CASCA DA TOT (PRIMA DATA CE ESTE CA FOREIGN KEY)
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         public IActionResult Delete(string id)
