@@ -12,53 +12,61 @@
 }
 <br />
 
+
+<div class="align-items-center justify-content-center d-flex">
+    <a class="btn btn-outline-primary" href="/Topics/New/@ViewBag.CatId">Adauga un nou topic</a>
+</div>
+
+<br />
+<br />
+
+
 @*MOTOR DE CAUTARE*@
 <form method="GET">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search topics or keywords" 
-                name="search" value="@ViewBag.SearchString">
-        <button class="btn btn-outline-success" type="submit">
+        <input type="text" class="form-control" placeholder="Search topics or keywords"
+               name="search" value="@ViewBag.SearchString">
+        <button class="btn btn-outline-primary" type="submit">
             Search
         </button>
     </div>
 </form>
 
-
-
-<div class="align-items-center justify-content-center d-flex">
-    <a class="btn btn-success" href="/Topics/New/@ViewBag.CatId">Adauga un nou topic</a>
-</div>
-
 <br />
+
 
 @foreach (var topic in ViewBag.Topics)
 {
-    @Html.Label("Title", "Titlu topic")
-    <p>@topic.Title</p>
-    @Html.Label("Text", "Text topic")
-    <p>@topic.Text</p>
-    <a class="btn alert-success" href="/Topics/Show/@topic.Id">Afisare topic</a>
 
-    @*
-    @if (ViewBag.AfisareButoane)
-    {
-        <a class="btn alert-success" href="/Topics/Edit/@topic.Id">Editare topic</a>
-    }
-    *@
+    <div class="div_categorie">
 
-    @if (topic.UserId == ViewBag.CurrentUser || ViewBag.AfisareButoane)
-    {
-        <a class="btn alert-success" href="/Topics/Edit/@topic.Id">Editare topic</a>
-    }
+        <p class="den_categorie align-items-center justify-content-center d-flex">@topic.Title</p>
 
-    <br />
-    <hr />
-    <br />
+        <p class="p_categorie">Continut: @topic.Text</p>
+
+        <div class="btn-group butoane_categorii align-items-center justify-conent-center d-flex">
+            <a class="btn btn-secondary" href="/Topics/Show/@topic.Id">Afisare topic</a>
+
+            @if (topic.UserId == ViewBag.CurrentUser || ViewBag.AfisareButoane)
+            {
+                <a class="btn btn-secondary" href="/Topics/Edit/@topic.Id">Editare topic</a>
+            }
+
+
+            <br />
+            <hr />
+            <br />
+        </div>
+    </div>
+
+
+    //******
 }
 
+<br />
 
 @* Afisarea paginata a articolelor *@
-<div>
+<div class="afis-paginata align-items-center justify-content-center d-flex">
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
