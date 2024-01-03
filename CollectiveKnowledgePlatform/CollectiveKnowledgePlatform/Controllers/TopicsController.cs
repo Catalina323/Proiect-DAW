@@ -52,27 +52,20 @@ namespace CollectiveKnowledgePlatform.Controllers
             if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
             {
 
-                // eliminam spatiile libere
                 search = Convert.ToString(HttpContext.Request.Query["search"]).Trim();
-
-                // Cautare in articol (Title si Content)
+                
                 List<int> topicIds = db.Topics.Where
                 (t => t.Title.Contains(search) || t.Text.Contains(search))
                 .Select(a => a.Id).ToList();
-
-                // Cautare in comentarii (Content)
 
                 List<int> topicIdsOfCommentsWithSearchString =
                 db.Comments.Where(c => c.Continut.Contains(search))
                 .Select(c => (int)c.TopicId).ToList();
 
-                // Se formeaza o singura lista formata din toate id-urile
-                //selectate anterior
+                
                 List<int> mergedIds =
                 topicIds.Union(topicIdsOfCommentsWithSearchString).ToList();
-                // Lista articolelor care contin cuvantul cautat
-                // fie in articol -> Title si Content
-                // fie in comentarii -> Content
+                
                 topics = db.Topics.Where(topic =>
                 mergedIds.Contains(topic.Id) && topic.CategoryId == id)
                 .Include("Category")
@@ -80,9 +73,7 @@ namespace CollectiveKnowledgePlatform.Controllers
                 .OrderBy(a => a.Id);
             }
             ViewBag.SearchString = search;
-            // AFISARE PAGINATA
-            //{ ... implementarea se afla in sectiunea anterioara }
-
+            
 
             //********* inceput AFISARE PAGINATA ***********
 
@@ -131,7 +122,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             return View();
         }
 
-        //********* METODELE  SHOW **********
+        //********* METODA  SHOW **********
 
         [Authorize(Roles = "User,Moderator,Administrator")]
         [AllowAnonymous]
@@ -141,6 +132,7 @@ namespace CollectiveKnowledgePlatform.Controllers
                                    .Include("User")
                                    .Include("Comments")
                                    .Include("Comments.User")
+                                   .Include("TopicLikes")
                                    .Where(t => t.Id == id)
                                    .First();
 
@@ -152,6 +144,15 @@ namespace CollectiveKnowledgePlatform.Controllers
                 ViewBag.Alert = TempData["messageType"];
             }
 
+            int likes = 0;
+            foreach (var like in topic.TopicLikes)
+            {
+                likes = likes + like.Type;
+            }
+
+            ViewBag.Likes = likes;
+
+            SetLike(topic);
             SetAccessRights();
             return View(topic);
         }
@@ -333,6 +334,125 @@ namespace CollectiveKnowledgePlatform.Controllers
             }
         }
 
+        //**** LIKE ***** DISLIKE *******
+
+        [HttpPost]
+        [Authorize(Roles = "User,Moderator,Administrator")]
+        public IActionResult Like(int? id, string L)
+        {
+            
+            if(L == "Like")
+            {
+                //cazul in care DAM  LIKE
+                TopicLike like = new TopicLike();
+
+                like.UserId = _userManager.GetUserId(User);
+                like.TopicId = id;
+                like.Type = 1;
+
+                
+                if (ModelState.IsValid)
+                {
+                    
+                    db.TopicLikes.Add(like);
+                    db.SaveChanges();
+                    return Redirect("/Topics/Show/" + id);
+
+                }
+                else
+                {
+                     return Redirect("/Topics/Show/" + id);
+                }
+
+            }
+
+            
+            if(L == "Liked")
+            {
+                //cazul in care STERGEM  LIKE UL
+
+                Topic topic = db.Topics.Include("TopicLikes")
+                                .Where(t => t.Id == id)
+                                .First();
+
+                foreach(TopicLike like in topic.TopicLikes)
+                {
+                    if(like.UserId == _userManager.GetUserId(User) && like.Type == 1)
+                    {
+                        db.Remove(like);
+                        db.SaveChanges();
+
+                        TempData["message"] = "Like ul a fost sters";
+                        TempData["messageType"] = "alert-success";
+                        return Redirect("/Topics/Show/" + id);
+                    }
+
+                }
+            }
+
+            //pe ultimul return nu cred ca intra dar da eroare daca nu e pus
+            //deoarece crede ca exista cazul in care nu returneaza nimic
+
+            return Redirect("/Topics/Show/" + id);
+
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "User,Moderator,Administrator")]
+        public IActionResult Dislike(int? id, string L)
+        {
+            if (L == "Dislike")
+            {
+                //cazul in care DAM  DISLIKE
+                TopicLike like = new TopicLike();
+
+                like.UserId = _userManager.GetUserId(User);
+                like.TopicId = id;
+                like.Type = -1;
+
+                if (ModelState.IsValid)
+                {
+                    db.TopicLikes.Add(like);
+                    db.SaveChanges();
+                    return Redirect("/Topics/Show/" + id);
+
+                }
+                else
+                {
+                    return Redirect("/Topics/Show/" + id);
+                }
+
+            }
+
+
+            if (L == "Disliked")
+            {
+                //cazul in care STERGEM  DISLIKE UL
+
+                Topic topic = db.Topics.Include("TopicLikes")
+                                .Where(t => t.Id == id)
+                                .First();
+
+                foreach (TopicLike like in topic.TopicLikes)
+                {
+                    if (like.UserId == _userManager.GetUserId(User) && like.Type == -1)
+                    {
+                        db.Remove(like);
+                        db.SaveChanges();
+
+                        TempData["message"] = "Dislike ul a fost sters";
+                        TempData["messageType"] = "alert-success";
+                        return Redirect("/Topics/Show/" + id);
+                    }
+                }
+            }
+
+            //pe ultimul return nu cred ca intra dar da eroare daca nu e pus
+            //deoarece crede ca exista cazul in care nu returneaza nimic
+
+            return Redirect("/Topics/Show/" + id);
+        }
+
 
 
 
@@ -350,6 +470,37 @@ namespace CollectiveKnowledgePlatform.Controllers
             ViewBag.EsteModerator = User.IsInRole("Moderator");
 
             ViewBag.UserCurent = _userManager.GetUserId(User);
+        }
+
+        private void SetLike(Topic topic)
+        {
+            //vrem sa existe 3 stari ale unui topic pentru like:
+            // 1 - utiliz a dat like
+            // 2 - utiliz a dat dislike
+            // 3 - utiliz nu a reactionat
+
+            ViewBag.Like = "Like";
+            ViewBag.Dislike = "Dislike";
+            ViewBag.Reaction = false;
+
+            var UserId = _userManager.GetUserId(User);
+
+            foreach( var l in topic.TopicLikes) 
+            {
+                if(l.UserId == UserId)
+                {
+                    if (l.Type == 1)
+                    {
+                        ViewBag.Like = "Liked";
+                        ViewBag.Reaction = true;
+                    }
+                    else if (l.Type == -1)
+                    {
+                        ViewBag.Dislike = "Disliked";
+                        ViewBag.Reaction = true;
+                    }   
+                }
+            }
         }
 
         [NonAction]
