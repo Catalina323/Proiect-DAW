@@ -2,12 +2,12 @@
 @{
     ViewBag.Title = "Afisare topic";
 }
-<h2>@ViewBag.Title</h2>
+@*<h2>@ViewBag.Title</h2> nu este nevoie*@
 
 <br />
 
-<p>@Model.Title</p>
-<p>@Model.Text</p>
+<p class="show_numeCategorie align-items-center justify-content-center d-flex">@Model.Title</pc>
+<p class="show_topic_text align-items-center justify-content-center d-flex">@Model.Text</p>
 
 @*AFISARE COMENTARII*@
 
@@ -107,20 +107,28 @@
 
 </div>
 
-
-
-<form method="post" action="/Topics/Delete/@Model.Id">
-
-    @if (ViewBag.AfisareButoane)
-    {
-        <button class="btn btn-danger" type="submit">Sterge topic</button>
-    }
-
-</form>
-<br />
-<a class="btn alert-success" href="/Topics/Index/@Model.CategoryId">Afisare lista topice</a>
 <br />
 <br />
+
+
+<div class="btn-group">
+    <form method="post" action="/Topics/Delete/@Model.Id">
+
+        @if (ViewBag.AfisareButoane)
+        {
+            <button class="btn btn-danger" type="submit">Sterge topic</button>
+        }
+
+    </form>
+    <br />
+    <a class="btn alert-success" href="/Topics/Index/@Model.CategoryId">Afisare lista topice</a>
+
+</div>
+
+
+<br />
+<br />
+
 
 @using (Html.BeginForm(method: FormMethod.Post, controllerName: "Topics", actionName: "Like", routeValues: new { id = @Model.Id, L = ViewBag.Like }))
 {
@@ -133,12 +141,6 @@
     <button class="btn btn-success" type="submit">@ViewBag.Dislike</button>
 
 }
-
-@*
-<a class="btn btn-success" href="/Topics/Like/@Model.Id">@ViewBag.Like</a>
-@ViewBag.Likes
-<a class="btn btn-success" href="/Topics/Dislike/@Model.Id">@ViewBag.Dislike</a>
-*@
 
 <br />
 <hr />
