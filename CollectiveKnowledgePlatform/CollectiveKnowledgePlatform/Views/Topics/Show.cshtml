@@ -4,10 +4,41 @@
 }
 @*<h2>@ViewBag.Title</h2> nu este nevoie*@
 
+
 <br />
 
 <p class="show_numeCategorie align-items-center justify-content-center d-flex">@Model.Title</p>
 <p class="show_topic_text align-items-center justify-content-center d-flex">@Model.Text</p>
+
+@*BUTOANE LIKE DISLIKE*@
+<div class="butoane">
+    @using (Html.BeginForm(method: FormMethod.Post, controllerName: "Topics", actionName: "Like", routeValues: new { id = @Model.Id, L = ViewBag.Like }))
+    {
+
+        @if (ViewBag.Like == "Liked")
+        {
+            <button class="btn btn-success" type="submit">@ViewBag.Like</button>
+        }
+        else
+        {
+            <button class="btn btn-secondary" type="submit">@ViewBag.Like</button>
+        }
+    }
+    @ViewBag.Likes
+    @using (Html.BeginForm(method: FormMethod.Post, controllerName: "Topics", actionName: "Dislike", routeValues: new { id = @Model.Id, L = ViewBag.Dislike }))
+    {
+        @if (ViewBag.Dislike == "Disliked")
+        {
+            <button class="btn btn-danger" type="submit">@ViewBag.Dislike</button>
+        }
+        else
+        {
+            <button class="btn btn-secondary" type="submit">@ViewBag.Dislike</button>
+
+        }
+    }
+</div>
+
 
 @*AFISARE COMENTARII*@
 
@@ -129,19 +160,7 @@
 <br />
 <br />
 
-<div class="butoane">
-    @using (Html.BeginForm(method: FormMethod.Post, controllerName: "Topics", actionName: "Like", routeValues: new { id = @Model.Id, L = ViewBag.Like }))
-    {
-        <button class="btn btn-secondary" type="submit">@ViewBag.Like</button>
 
-    }
-    @ViewBag.Likes
-    @using (Html.BeginForm(method: FormMethod.Post, controllerName: "Topics", actionName: "Dislike", routeValues: new { id = @Model.Id, L = ViewBag.Dislike }))
-    {
-        <button class="btn btn-secondary" type="submit">@ViewBag.Dislike</button>
-
-    }
-</div>
 
 <br />
 <hr />

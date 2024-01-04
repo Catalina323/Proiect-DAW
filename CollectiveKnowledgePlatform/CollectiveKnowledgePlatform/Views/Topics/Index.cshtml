@@ -34,6 +34,35 @@
 
 <br />
 
+@*AICI AR TREBUI SA VINA LISTA CU SORTARILE*@
+<form action="/Topics/Index/@ViewBag.CatId" method="get">
+    <label for="sortOrder">
+        <i class="bi bi-card-list"></i>
+        Sortare
+    </label>
+    <select name="sortOrder" id="sortOrder" class="form-control">
+        @{
+            int t = 1;
+            @foreach (var sortare in ViewBag.Sortari)
+            {
+                if (sortare == "Id")
+                    continue;
+                if (sortare == ViewBag.SortareSelectata)
+                {
+                    <option value=@t selected>@sortare</option>
+                }
+                else
+                {
+                    <option value=@t>@sortare</option>
+                }
+                t += 1;
+            }
+        }
+    </select>
+    <br />
+    <input type="submit" value="Afiseaza" />
+</form>
+
 
 @foreach (var topic in ViewBag.Topics)
 {
@@ -63,7 +92,8 @@
     //******
 }
 
-<br />
+
+
 
 @* Afisarea paginata a articolelor *@
 <div class="afis-paginata align-items-center justify-content-center d-flex">

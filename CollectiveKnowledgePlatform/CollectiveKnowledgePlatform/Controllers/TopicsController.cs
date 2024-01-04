@@ -18,6 +18,8 @@ namespace CollectiveKnowledgePlatform.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        int sortOrder = 0;
+
         public TopicsController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
@@ -33,16 +35,17 @@ namespace CollectiveKnowledgePlatform.Controllers
         
         [Authorize(Roles = "User,Moderator,Administrator")]
         [AllowAnonymous]
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id, int? sortOrder = 0)
         {
 
             if(id == null)
                 return NotFound();
-            
-            var topics = from topic in db.Topics//.Include("Category")
+
+            /*var topics = from topic in db.Topics//.Include("Category")
                                .Where(t => t.CategoryId == id)
                                .OrderBy(t => t.Id)
-                            select topic;
+                            select topic;*/
+            var topics = GetSortedTopics(id, sortOrder);
 
             ViewBag.CatId = id;
 
@@ -116,11 +119,20 @@ namespace CollectiveKnowledgePlatform.Controllers
 
             //********** sfarsit MOTOR DE CAUTARE ***********
 
+            //adaugare tipuri de sortari
+            string[] sortari = {"Id", "Reactii", "Alfabetic" };
+            ViewBag.Sortari = sortari;
+            ViewBag.SortareSelectata = sortari[(int)sortOrder];
 
             ViewBag.CurrentUser = _userManager.GetUserId(User);
             SetAccessRights();
             return View();
         }
+
+
+        //************SETARE INAINTE DE METODA INDEX*********\\
+
+
 
         //********* METODA  SHOW **********
 
@@ -453,10 +465,49 @@ namespace CollectiveKnowledgePlatform.Controllers
             return Redirect("/Topics/Show/" + id);
         }
 
+        public IQueryable<Topic> GetSortedTopics(int? id, int? sortOrder)
+        {
+            if (sortOrder == 0)
+            {
+                //sortate dupa id
+                var topics = from topic in db.Topics
+                   .Where(t => t.CategoryId == id)
+                   .OrderBy(t => t.Id)
+                             select topic;
+                return topics;
+            }
+            else if(sortOrder == 1)
+            {
+                //sortare dupa numarul de reactii
+                var topics = from topic in db.Topics
+                                .Include("TopicLikes")
+                                .Where(t => t.CategoryId == id)
+                                .OrderByDescending(t => t.TopicLikes.Count)
+                                .ThenBy(t => t.Id) 
+                                select topic;
+                return topics;
+            }
+            else if(sortOrder == 2)
+            {
+                //sortate alfabetic dupa titlu
+                var topics = from topic in db.Topics
+                             .Where(t => t.CategoryId == id)
+                             .OrderBy(t => t.Title)
+                             .ThenBy(t => t.Id) select topic;
+                return topics;
+            }
+            return from topic in db.Topics
+                        .Where(t => t.CategoryId == id)
+                         .OrderBy(t => t.Id)
+                   select topic;
 
+        }
 
 
         //**********************************************
+
+        
+
         private void SetAccessRights()
         {
             ViewBag.AfisareButoane = false;

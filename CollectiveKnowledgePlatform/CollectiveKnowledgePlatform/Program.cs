@@ -48,6 +48,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Categories}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "sortedIndex",
+    pattern: "{Controller=Topics}/{Action=Index}/{id?}/{sortOrder?}"
+
+    );
+
 app.MapRazorPages();
 
 app.Run();
