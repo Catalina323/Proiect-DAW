@@ -4,27 +4,32 @@
     ViewBag.Title = "Editare categorie";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2 class="text-center mt-5">@ViewBag.Title</h2>
+ 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
+            @using (Html.BeginForm(controllerName: "Categories", actionName: "Edit", method: FormMethod.Post,
+                 routeValues: new { id = Model.Id }))
+            {
+                @Html.Label("Name", "Denumire categorie")
+                <br />
+                @Html.TextBox("Name", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+                <br />
 
+                @Html.Label("Description", "Descriere categorie")
+                <br />
+                @Html.TextBox("Description", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Description, null, new { @class = "text-danger" })
+                <br />
 
-@using (Html.BeginForm(controllerName: "Categories", actionName: "Edit", method: FormMethod.Post,
-     routeValues: new { id = Model.Id }))
-{
-    @Html.Label("Name", "Denumire categorie")
-    <br />
-    @Html.Editor("Name")
-    @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
-    <br />
+                <br />
 
-    @Html.Label("Description", "Descriere categorie")
-    <br />
-    @Html.Editor("Description")
-    @Html.ValidationMessageFor(m => m.Description, null, new { @class = "text-danger" })
-    <br />
-
-    <br />
-
-    <button class="btn btn-success" type="submit">Modifica categoria</button>
-}
+                <button class="btn btn-success" type="submit">Modifica categoria</button>
+            }
+        </div>
+    </div>
+</div>
 
 

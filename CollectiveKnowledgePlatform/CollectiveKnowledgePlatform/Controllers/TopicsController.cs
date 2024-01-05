@@ -41,10 +41,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             if(id == null)
                 return NotFound();
 
-            /*var topics = from topic in db.Topics//.Include("Category")
-                               .Where(t => t.CategoryId == id)
-                               .OrderBy(t => t.Id)
-                            select topic;*/
+            
             var topics = GetSortedTopics(id, sortOrder);
 
             ViewBag.CatId = id;
@@ -190,8 +187,7 @@ namespace CollectiveKnowledgePlatform.Controllers
 
             // preluam id-ul utiliz care posteaza topicul
             topic.UserId = _userManager.GetUserId(User);
-            //topic.CategoryId = ViewBag.CatId;
-            //Console.WriteLine("ajunge pe new cu post");
+            
             topic.CategoryId = CatId;
 
             Topic topic2 = new Topic();
@@ -211,7 +207,6 @@ namespace CollectiveKnowledgePlatform.Controllers
             }
             else
             {
-                //topic.Categ = GetAllCategories();
                 SetAccessRights();
                 return View(topic);
             }
@@ -394,8 +389,6 @@ namespace CollectiveKnowledgePlatform.Controllers
                         db.Remove(like);
                         db.SaveChanges();
 
-                        TempData["message"] = "Like ul a fost sters";
-                        TempData["messageType"] = "alert-success";
                         return Redirect("/Topics/Show/" + id);
                     }
 
@@ -452,8 +445,6 @@ namespace CollectiveKnowledgePlatform.Controllers
                         db.Remove(like);
                         db.SaveChanges();
 
-                        TempData["message"] = "Dislike ul a fost sters";
-                        TempData["messageType"] = "alert-success";
                         return Redirect("/Topics/Show/" + id);
                     }
                 }

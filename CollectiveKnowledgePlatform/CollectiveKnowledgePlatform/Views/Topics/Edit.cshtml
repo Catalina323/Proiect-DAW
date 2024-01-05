@@ -4,30 +4,37 @@
     ViewBag.Title = Model.Title;
 }
 
-<h2>Editare Topic</h2>
+<h2 class="text-center mt-5">Editare Topic</h2>
+ 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
 
+            @using (Html.BeginForm(controllerName: "Topics", actionName: "Edit", method: FormMethod.Post,
+                routeValues: new { id = Model.Id }))
+            {
+                @Html.Label("Title", "Titlu topic")
+                <br />
+                @Html.TextBox("Title", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Title, null, new { @class = "text-danger" })
+                <br />
 
-@using (Html.BeginForm(controllerName: "Topics", actionName: "Edit", method: FormMethod.Post,
-    routeValues: new { id = Model.Id }))
-{
-    @Html.Label("Title", "Titlu topic")
-    <br />
-    @Html.Editor("Title")
-    @Html.ValidationMessageFor(m => m.Title, null, new { @class = "text-danger" })
-    <br />
+                @Html.Label("Text", "Continut topic")
+                <br />
+                @Html.TextBox("Text", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
+                <br />
+                @if (ViewBag.AfisareButoane)
+                {
+                    //@Html.DropDownList("newCategory", new SelectList(ViewBag.Categories, "Value", "Text", ViewBag.CurrentCategory), null, new{@class = "form-control"})
+                    @Html.DropDownListFor(m => m.CategoryId, new SelectList(ViewBag.Categories, "Value", "Text"), "Selectati categoria", new {@class = "form-control"})
+                }
 
-    @Html.Label("Text", "Continut topic")
-    <br />
-    @Html.Editor("Text")
-    @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
-    <br />
-    @if (ViewBag.AfisareButoane)
-    {
-        //@Html.DropDownList("newCategory", new SelectList(ViewBag.Categories, "Value", "Text", ViewBag.CurrentCategory), null, new{@class = "form-control"})
-        @Html.DropDownListFor(m => m.CategoryId, new SelectList(ViewBag.Categories, "Value", "Text"), "Selectati categoria", new {@class = "form-control"})
-    }
+                <br />
 
-    <br />
+                <button class="btn btn-success" type="submit">Modifica topic</button>
+            }
 
-    <button class="btn btn-success" type="submit">Modifica topic</button>
-}
+        </div>
+    </div>
+</div>
