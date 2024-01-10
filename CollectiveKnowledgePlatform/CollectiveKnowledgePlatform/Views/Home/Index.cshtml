@@ -1,7 +1,22 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
+
 <div class="text-center">
-    <h1 class="display-4">Salutare</h1>
+    <h1 class="display-4">CollectiveKnowledgePlatform</h1>
+    <div class="btn-group" role="group" aria-label="Basic example">
+        @if(!SignInManager.IsSignedIn(User))
+        {
+            <button type="button" class="btn btn-secondary button_homepage" href ="/Identity/Account/Login">Login</button>
+            <button type="button" class="btn btn-secondary button_homepage" href ="/Identity/Account/Register">Register</button>    
+        }
+        <button type="button" class="btn btn-secondary button_homepage" href="/Categories/Index">Vezi categorii</button>
+    </div>
 </div>

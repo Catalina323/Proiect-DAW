@@ -55,3 +55,7 @@ body {
     margin-bottom: 10vh;
     border-bottom: 0.16rem solid green;
 }
+
+.button_homepage{
+    font-size:2vw;
+}
