@@ -71,6 +71,7 @@ namespace CollectiveKnowledgePlatform.Controllers
                 .Include("Category")
                 .Include("User")
                 .OrderBy(a => a.Id);
+
             }
             ViewBag.SearchString = search;
             

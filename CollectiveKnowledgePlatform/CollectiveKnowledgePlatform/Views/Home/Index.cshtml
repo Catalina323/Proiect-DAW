@@ -11,12 +11,33 @@
 
 <div class="text-center">
     <h1 class="display-4">CollectiveKnowledgePlatform</h1>
+
+    <br />
+
     <div class="btn-group" role="group" aria-label="Basic example">
         @if(!SignInManager.IsSignedIn(User))
         {
-            <button type="button" class="btn btn-secondary button_homepage" href ="/Identity/Account/Login">Login</button>
-            <button type="button" class="btn btn-secondary button_homepage" href ="/Identity/Account/Register">Register</button>    
+            <a class="btn btn-secondary button_homepage" href ="/Identity/Account/Login">Login</a>
+            <a class="btn btn-secondary button_homepage" href ="/Identity/Account/Register">Register</a>    
         }
-        <button type="button" class="btn btn-secondary button_homepage" href="/Categories/Index">Vezi categorii</button>
+        <a class="btn btn-secondary button_homepage" href="/Categories/Index">Vezi categorii</a>
     </div>
+
+    <br />
+    <br />
+    <br />
+    <div>
+        <h3>Bine ati venit pe platforma noastra</h3>
+        <br />
+        <br />
+        <h4>Ce poti face aici?</h4>
+        <br />
+        <h5>Sa explorezi discutii dintr-o diversitate de categorii</h5>
+        <h5>Sa creezi noi subiecte de discutie</h5>
+        <h5>Sa raspunzi intrebarilor</h5>
+        <h5>Sa ajuti si sa fii ajutat in aceasta comunitate</h5>
+       
+    </div>
+    <br />
+    <br />
 </div>
