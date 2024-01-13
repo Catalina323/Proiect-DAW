@@ -1,33 +1,41 @@
 ﻿@model CollectiveKnowledgePlatform.Models.ApplicationUser
 
-@using (Html.BeginForm(actionName: "Edit", controllerName: "Users",
-       method: FormMethod.Post, routeValues: new { id = @Model.Id }))
-{
 
-    <i class="bi bi-person"></i>
-    @Html.Label("UserName", "Nume utilizator", new { @class = "" })
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
+            @using (Html.BeginForm(actionName: "Edit", controllerName: "Users",
+                   method: FormMethod.Post, routeValues: new { id = @Model.Id }))
+            {
 
-    <br />
+                <i class="bi bi-person"></i>
+                @Html.Label("UserName", "Nume utilizator", new { @class = "" })
 
-    @Html.EditorFor(m => m.UserName)
+                <br /> 
+                @*
+                @Html.EditorFor(m => m.UserName)
+                *@
+                @Html.TextBox("UserName", null, new { @class = "form-control" })
+                <br />
 
-    <br />
+                <i class="bi bi-envelope"></i>
+                @Html.Label("Email", "Email utilizator", new { @class = "" })
 
-    <i class="bi bi-envelope"></i>
-    @Html.Label("Email", "Email utilizator", new { @class = "" })
+                <br />
+                @*
+                @Html.EditorFor(m => m.Email)
+                *@
+                @Html.TextBox("Email", null, new { @class = "form-control" })
+                <br />
 
-    <br />
+                <i class="bi bi-card-list"></i>
+                <label>Selectati rolul</label>
+                @Html.DropDownList("newRole", new SelectList(ViewBag.RoleNames, "Value", "Text", ViewBag.UserRole), null, new { @class = "form-control" })
 
-    @Html.EditorFor(m => m.Email)
+                <br />
 
-    <br />
-
-    <i class="bi bi-card-list"></i>
-    <label>Selectati rolul</label>
-    @Html.DropDownList("newRole", new SelectList(ViewBag.RoleNames, "Value", "Text", ViewBag.UserRole), null, new { @class = "form-control" })
-
-    <br />
-
-    <button class="btn btn-sm btn-success" type="submit">Editare user</button>
-}
-
+                <button class="btn btn-sm btn-success" type="submit">Editare user</button>
+            }
+        </div>
+    </div>
+</div>

@@ -4,24 +4,35 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Editare comentariu</h2>
-<br />
 
-@using (Html.BeginForm(controllerName: "Comments", actionName: "Edit",
-      method: FormMethod.Post, routeValues: new { id = Model.Id }))
 
-    {
-    @Html.Label("Content", "Continut comentariu")
 
-    <br />
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
 
-    @Html.Editor("Continut", new { @class = "form-control" })//aici ar trebui schimbat sa apara doar daca esti admin
-    <br />
+            <h2>Editare comentariu</h2>
+            <br />
+            <br />
 
-    @Html.ValidationMessage("Continut", null, new { @class = "text-danger" })
+            @using (Html.BeginForm(controllerName: "Comments", actionName: "Edit",
+                  method: FormMethod.Post, routeValues: new { id = Model.Id }))
 
-    <br />
-    <br />
+                {
+                @Html.Label("Content", "Continut comentariu")
 
-    <button class="btn  btn-primary" type="submit">Editeaza comentariul</button>
-}
+                <br />
+
+                @Html.TextArea("Continut", new { @class = "form-control" })//aici ar trebui schimbat sa apara doar daca esti admin
+                <br />
+
+                @Html.ValidationMessage("Continut", null, new { @class = "text-danger" })
+
+                <br />
+                <br />
+
+                <button class="btn  btn-primary" type="submit">Editeaza comentariul</button>
+            }
+        </div>
+    </div>
+</div>

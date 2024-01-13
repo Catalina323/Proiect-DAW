@@ -20,7 +20,7 @@
 
                 @Html.Label("Description", "Descriere categorie")
                 <br />
-                @Html.TextBox("Description", null, new { @class = "form-control" })
+                @Html.TextArea("Description", null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Description, null, new { @class = "text-danger" })
                 <br />
 

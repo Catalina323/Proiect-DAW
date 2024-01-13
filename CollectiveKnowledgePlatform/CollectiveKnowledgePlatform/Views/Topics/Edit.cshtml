@@ -21,7 +21,7 @@
 
                 @Html.Label("Text", "Continut topic")
                 <br />
-                @Html.TextBox("Text", null, new { @class = "form-control" })
+                @Html.TextArea("Text", null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Text, null, new { @class = "text-danger" })
                 <br />
                 @if (ViewBag.AfisareButoane)

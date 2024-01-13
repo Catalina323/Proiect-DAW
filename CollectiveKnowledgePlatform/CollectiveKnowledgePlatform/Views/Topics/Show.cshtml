@@ -113,7 +113,7 @@
 
                         <input type="hidden" name="TopicId" value="@Model.Id" />
 
-                        <label>Continut comentariu</label>
+                        <label>Comenteaza</label>
                         <br />
 
                         <textarea class="form-control" name="Continut"></textarea>
@@ -145,7 +145,7 @@
 <div class="orice align-items-center justify-content-center d-flex">
     <form method="post" action="/Topics/Delete/@Model.Id">
 
-        @if (ViewBag.AfisareButoane)
+        @if (ViewBag.AfisareButoane || @Model.UserId == ViewBag.UserCurent)
         {
             <button class="btn btn-danger" type="submit">Sterge topic</button>
         }

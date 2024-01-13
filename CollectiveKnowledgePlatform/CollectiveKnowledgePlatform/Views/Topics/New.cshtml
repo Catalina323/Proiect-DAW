@@ -1,7 +1,7 @@
 ﻿@model CollectiveKnowledgePlatform.Models.Topic
 
 
-<h2 class="text-center mt-5">Adaugare topic @ViewBag.CatId</h2>
+<h2 class="text-center mt-5">Adaugare topic</h2>
 <br />
 
 <div class="container mt-5">
@@ -20,7 +20,7 @@
                 <br />
                 @Html.Label("Text", "Continut topic")
                 <br />
-                @Html.TextBox("Text", null, new { @class = "form-control" })
+                @Html.TextArea("Text", null, new { @class = "form-control" })
 
                 <br />
                 <br />
