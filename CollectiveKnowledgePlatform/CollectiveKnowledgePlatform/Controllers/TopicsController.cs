@@ -118,7 +118,7 @@ namespace CollectiveKnowledgePlatform.Controllers
             //********** sfarsit MOTOR DE CAUTARE ***********
 
             //adaugare tipuri de sortari
-            string[] sortari = {"Id", "Reactii", "Alfabetic" };
+            string[] sortari = {"Id", "Like-uri", "Alfabetic" };
             ViewBag.Sortari = sortari;
             ViewBag.SortareSelectata = sortari[(int)sortOrder];
 
@@ -470,14 +470,15 @@ namespace CollectiveKnowledgePlatform.Controllers
             }
             else if(sortOrder == 1)
             {
-                //sortare dupa numarul de reactii
+                //sortare dupa numarul de like uri
                 var topics = from topic in db.Topics
-                                .Include("TopicLikes")
-                                .Where(t => t.CategoryId == id)
-                                .OrderByDescending(t => t.TopicLikes.Count)
-                                .ThenBy(t => t.Id) 
-                                select topic;
+                                 .Include("TopicLikes")
+                                 .Where(t => t.CategoryId == id)
+                                 .OrderByDescending(t => t.TopicLikes.Count(like => like.Type == 1) - t.TopicLikes.Count(like => like.Type == -1))
+                                 .ThenBy(t => t.Id)
+                             select topic;
                 return topics;
+
             }
             else if(sortOrder == 2)
             {
